@@ -7,7 +7,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand fw-bold fs-3"
-           href="/"
+           href="{% url 'home' %}"
            style="color: #5d6b6b;">
             RESTO<span style="color: #f7cbca;"></span>
         </a>
@@ -25,48 +25,72 @@
         <!-- Menu -->
         <div class="collapse navbar-collapse" id="navbarMenu">
 
-            <ul class="navbar-nav mx-auto gap-lg-4">
+            <ul class="navbar-nav mx-auto gap-lg-3">
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link"
+                       href="{% url 'home' %}">
+                        Home
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/menu/">Menu</a>
+                    <a class="nav-link"
+                       href="{% url 'menu' %}">
+                        Menu
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/#about">About Us</a>
+                    <a class="nav-link"
+                       href="{% url 'about' %}">
+                        About Us
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/#contact">Contact</a>
+                    <a class="nav-link"
+                       href="{% url 'events' %}">
+                        Events
+                    </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'contact' %}">
+                        Contact
+                    </a>
+                </li>
+
             </ul>
 
             <!-- Actions -->
             <div class="d-flex align-items-center gap-3">
 
-                <a href="/cart/"
+                <!-- Cart -->
+                <a href="{% url 'cart' %}"
                    class="text-decoration-none fs-5"
                    style="color: #5d6b6b;"
                    aria-label="Shopping cart">
                     <i class="bi bi-bag"></i>
                 </a>
 
-                <a href="/login/"
-                   class="text-decoration-none fs-5"
-                   style="color: #5d6b6b;"
-                   aria-label="Login">
+                <!-- Login (coming later) -->
+                <span class="fs-5"
+                      style="color: #5d6b6b;"
+                      title="Login coming soon">
                     <i class="bi bi-person"></i>
-                </a>
+                </span>
 
-                <a href="/reservation/"
+                <!-- Reservation -->
+                <a href="{% url 'reservation' %}"
                    class="btn rounded-pill px-4 fw-semibold"
                    style="background-color: #f7cbca; color: #5d6b6b;">
                     Book a Table
                 </a>
 
             </div>
+
         </div>
     </div>
 </nav>
