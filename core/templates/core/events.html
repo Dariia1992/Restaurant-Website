@@ -1,9 +1,751 @@
-{% extends 'base.html' %}
 
-{% block title %}Events | RESTO{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}What's On | Dish Café{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1>Events</h1>
+
+<style>
+/* ==========================================
+   DISH CAFÉ — EVENTS CALENDAR
+   ESPRESSO & CHAMPAGNE
+========================================== */
+
+.dish-events {
+    --espresso: #211D1A;
+    --mocha: #514238;
+    --champagne: #C4A477;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    background: transparent;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow: clip;
+}
+
+.dish-events *,
+.dish-events *::before,
+.dish-events *::after {
+    box-sizing: border-box;
+}
+
+.dish-events h1,
+.dish-events h2,
+.dish-events h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+}
+
+.dish-events a {
+    text-decoration: none;
+}
+
+.dish-events .events-container {
+    width: min(1050px, calc(100% - 48px));
+    margin-inline: auto;
+}
+
+/* ==========================================
+   BLACK & WHITE FULL PAGE VIDEO
+========================================== */
+
+.dish-events .events-video-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--espresso);
+}
+
+.dish-events .events-video-background video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    /* BLACK & WHITE CINEMATIC EFFECT */
+    filter:
+        grayscale(100%)
+        brightness(.75)
+        contrast(1.15);
+}
+
+.dish-events .events-video-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    /* Neutral overlay keeps video monochrome */
+    background: rgba(0, 0, 0, .48);
+}
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.dish-events .events-content {
+    position: relative;
+    z-index: 1;
+    padding: 75px 0 95px;
+}
+
+/* ==========================================
+   HEADING
+========================================== */
+
+.dish-events .events-heading {
+    margin-bottom: 55px;
+    text-align: center;
+}
+
+.dish-events .events-label {
+    display: inline-block;
+    color: var(--champagne);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.dish-events .events-heading h1 {
+    margin: 17px 0 16px;
+    font-size: clamp(60px, 8vw, 95px);
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+}
+
+.dish-events .events-heading h1 em {
+    color: var(--champagne);
+}
+
+.dish-events .events-heading p {
+    max-width: 500px;
+    margin: 0 auto;
+    color: rgba(245, 240, 232, .85);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* ==========================================
+   DECORATIVE DIVIDER
+========================================== */
+
+.dish-events .events-decoration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 28px;
+}
+
+.dish-events .events-decoration::before,
+.dish-events .events-decoration::after {
+    content: "";
+    width: 45px;
+    height: 1px;
+    background: rgba(196, 164, 119, .55);
+}
+
+.dish-events .events-decoration span {
+    color: var(--champagne);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 17px;
+}
+
+/* ==========================================
+   EVENTS CALENDAR
+========================================== */
+
+.dish-events .events-calendar {
+    border-top: 1px solid rgba(196, 164, 119, .45);
+}
+
+.dish-events .event-row {
+    display: grid;
+    grid-template-columns: 75px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 25px;
+    padding: 25px 18px;
+
+    border-bottom: 1px solid rgba(196, 164, 119, .3);
+    background: rgba(33, 29, 26, .3);
+
+    transition:
+        background .3s ease,
+        padding .3s ease;
+}
+
+.dish-events .event-row:hover {
+    background: rgba(81, 66, 56, .75);
+    padding-left: 25px;
+}
+
+/* ==========================================
+   DATE
+========================================== */
+
+.dish-events .event-date {
+    text-align: center;
+    border-right: 1px solid rgba(196, 164, 119, .35);
+    padding-right: 15px;
+}
+
+.dish-events .event-day {
+    display: block;
+    color: var(--champagne);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 39px;
+    line-height: 1;
+}
+
+.dish-events .event-month {
+    display: block;
+    margin-top: 7px;
+    color: var(--champagne);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* ==========================================
+   EVENT DETAILS
+========================================== */
+
+.dish-events .event-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+}
+
+.dish-events .event-thumbnail {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    border: 1px solid rgba(196, 164, 119, .3);
+    background: var(--mocha);
+}
+
+.dish-events .event-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* Event images remain colorful */
+    filter: none;
+
+    transition: transform .4s ease;
+}
+
+.dish-events .event-row:hover .event-thumbnail img {
+    transform: scale(1.07);
+}
+
+.dish-events .event-info {
+    min-width: 0;
+}
+
+.dish-events .event-type {
+    color: var(--champagne);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.dish-events .event-name {
+    margin: 8px 0;
+    color: var(--cream);
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.2;
+}
+
+.dish-events .event-description {
+    margin: 0;
+    color: rgba(245, 240, 232, .78);
+    font-size: 12px;
+    line-height: 1.75;
+}
+
+/* ==========================================
+   BOOK TABLE BUTTON
+========================================== */
+
+.dish-events .event-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 12px 16px;
+
+    border: 1px solid rgba(196, 164, 119, .7);
+    background: rgba(33, 29, 26, .4);
+
+    color: var(--champagne);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    transition: .3s ease;
+}
+
+.dish-events .event-action:hover {
+    background: var(--champagne);
+    border-color: var(--champagne);
+    color: var(--espresso);
+}
+
+/* ==========================================
+   EMPTY EVENTS STATE
+========================================== */
+
+.dish-events .events-empty {
+    padding: 75px 20px;
+    text-align: center;
+
+    background: rgba(33, 29, 26, .4);
+    border-bottom: 1px solid rgba(196, 164, 119, .3);
+}
+
+.dish-events .events-empty > i {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--champagne);
+    font-size: 35px;
+}
+
+.dish-events .events-empty h2 {
+    margin: 0 0 15px;
+    font-size: clamp(28px, 4vw, 38px);
+}
+
+.dish-events .events-empty p {
+    max-width: 450px;
+    margin: 0 auto;
+    color: rgba(245, 240, 232, .75);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+/* ==========================================
+   BOTTOM RESERVATION
+========================================== */
+
+.dish-events .events-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-top: 60px;
+    padding-top: 30px;
+
+    border-top: 1px solid rgba(196, 164, 119, .35);
+}
+
+.dish-events .events-bottom h2 {
+    margin: 0 0 10px;
+    font-size: clamp(28px, 4vw, 38px);
+}
+
+.dish-events .events-bottom h2 em {
+    color: var(--champagne);
+}
+
+.dish-events .events-bottom p {
+    margin: 0;
+    color: rgba(245, 240, 232, .8);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.dish-events .events-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 16px 23px;
+
+    background: var(--champagne);
+    color: var(--espresso);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    transition: .3s ease;
+}
+
+.dish-events .events-button:hover {
+    background: var(--cream);
+    color: var(--espresso);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 991px) {
+
+    .dish-events .event-row {
+        gap: 18px;
+    }
+
+    .dish-events .event-thumbnail {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 767px) {
+
+    .dish-events .events-container {
+        width: calc(100% - 32px);
+    }
+
+    .dish-events .events-content {
+        padding: 55px 0 75px;
+    }
+
+    .dish-events .events-heading {
+        margin-bottom: 40px;
+    }
+
+    .dish-events .events-heading h1 {
+        font-size: 65px;
+    }
+
+    .dish-events .event-row {
+        grid-template-columns: 58px minmax(0, 1fr);
+        gap: 15px;
+        padding: 22px 8px;
+    }
+
+    .dish-events .event-row:hover {
+        padding-left: 8px;
+    }
+
+    .dish-events .event-date {
+        padding-right: 10px;
+    }
+
+    .dish-events .event-day {
+        font-size: 30px;
+    }
+
+    .dish-events .event-month {
+        font-size: 9px;
+    }
+
+    .dish-events .event-main {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .dish-events .event-thumbnail {
+        width: 60px;
+        height: 70px;
+    }
+
+    .dish-events .event-name {
+        font-size: 24px;
+    }
+
+    .dish-events .event-description {
+        font-size: 11px;
+    }
+
+    .dish-events .event-action {
+        grid-column: 2;
+        justify-self: start;
+        margin-top: 2px;
+    }
+
+    .dish-events .events-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 50px;
+    }
+
+    .dish-events .events-button {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dish-events .event-row,
+    .dish-events .event-thumbnail img,
+    .dish-events .event-action,
+    .dish-events .events-button {
+        transition: none;
+    }
+}
+</style>
+
+
+<div class="dish-events">
+
+    <!-- =====================================
+         BLACK & WHITE VIDEO BACKGROUND
+    ====================================== -->
+
+    <div
+        class="events-video-background"
+        aria-hidden="true"
+    >
+
+        <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+        >
+
+            <source
+                src="/media/dishes/dishes/events.mp4"
+                type="video/mp4"
+            >
+
+        </video>
+
+    </div>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="events-content">
+
+        <div class="events-container">
+
+            <!-- HEADING -->
+
+            <header class="events-heading">
+
+                <span class="events-label">
+                    DISH CAFÉ · EVENTS CALENDAR
+                </span>
+
+                <h1>
+                    What's <em>On.</em>
+                </h1>
+
+                <p>
+                    Good food. Great company.
+                    Unforgettable evenings.
+                </p>
+
+                <div class="events-decoration">
+                    <span>DC</span>
+                </div>
+
+            </header>
+
+
+            <!-- =====================================
+                 DYNAMIC EVENTS FROM DATABASE
+            ====================================== -->
+
+            <section
+                class="events-calendar"
+                aria-label="Upcoming events"
+            >
+
+                {% for event in events %}
+
+                <article class="event-row">
+
+                    <!-- DATE -->
+
+                    <div class="event-date">
+
+                        <span class="event-day">
+                            {{ event.date|date:"d" }}
+                        </span>
+
+                        <span class="event-month">
+                            {{ event.date|date:"M"|upper }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- EVENT IMAGE AND DETAILS -->
+
+                    <div class="event-main">
+
+                        {% if event.image %}
+
+                        <div class="event-thumbnail">
+
+                            <img
+                                src="{{ event.image.url }}"
+                                alt="{{ event.title }}"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="event-info">
+
+                            <span class="event-type">
+
+                                {{ event.get_event_type_display }}
+
+                                ·
+
+                                {{ event.time|time:"H:i" }}
+
+                            </span>
+
+                            <h2 class="event-name">
+                                {{ event.title }}
+                            </h2>
+
+                            {% if event.description %}
+
+                            <p class="event-description">
+                                {{ event.description }}
+                            </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOOK TABLE -->
+
+                    <a
+                        href="{% url 'reservation' %}"
+                        class="event-action"
+                    >
+
+                        Book Table
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </article>
+
+                {% empty %}
+
+                <!-- NO UPCOMING EVENTS -->
+
+                <div class="events-empty">
+
+                    <i class="bi bi-calendar-event"></i>
+
+                    <h2>
+                        Something special is coming.
+                    </h2>
+
+                    <p>
+                        Our next events are being prepared.
+                        Stay tuned for beautiful evenings,
+                        great food and unforgettable moments.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </section>
+
+
+            <!-- =====================================
+                 BOTTOM RESERVATION
+            ====================================== -->
+
+            <section class="events-bottom">
+
+                <div>
+
+                    <h2>
+                        See you <em>there.</em>
+                    </h2>
+
+                    <p>
+                        Make your next evening something special.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'reservation' %}"
+                    class="events-button"
+                >
+
+                    Reserve a Table
+
+                    <i class="bi bi-arrow-up-right"></i>
+
+                </a>
+
+            </section>
+
+        </div>
+
+    </main>
+
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const video = document.querySelector(
+        ".dish-events .events-video-background video"
+    );
+
+    if (!video) return;
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reducedMotion) {
+        video.pause();
+    }
+
+});
+</script>
+
 {% endblock %}

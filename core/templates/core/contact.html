@@ -1,9 +1,733 @@
-{% extends 'base.html' %}
 
-{% block title %}Events | RESTO{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact | Dish Café{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1>Contact</h1>
+
+<style>
+/* ==========================================
+   DISH CAFÉ — CONTACT
+   MODERN EDITORIAL / ESPRESSO & CHAMPAGNE
+========================================== */
+
+.dc-contact {
+    --espresso: #211D1A;
+    --mocha: #514238;
+    --gold: #C4A477;
+    --cream: #F5F0E8;
+
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    color: var(--cream);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    overflow: clip;
+}
+
+.dc-contact *,
+.dc-contact *::before,
+.dc-contact *::after {
+    box-sizing: border-box;
+}
+
+.dc-contact h1,
+.dc-contact h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+}
+
+.dc-contact a {
+    text-decoration: none;
+}
+
+.dc-contact .dc-wrap {
+    width: min(1080px, calc(100% - 48px));
+    margin-inline: auto;
+}
+
+/* ==========================================
+   FULL PAGE VIDEO
+========================================== */
+
+.dc-contact .dc-video-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: var(--espresso);
+    pointer-events: none;
+}
+
+.dc-contact .dc-background-video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(.75) saturate(.8);
+}
+
+.dc-contact .dc-video-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            110deg,
+            rgba(33,29,26,.82) 0%,
+            rgba(33,29,26,.56) 55%,
+            rgba(33,29,26,.7) 100%
+        );
+}
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+
+.dc-contact .dc-page {
+    position: relative;
+    z-index: 1;
+    padding: 65px 0 85px;
+}
+
+.dc-contact .dc-eyebrow {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.dc-contact .dc-hero {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.dc-contact .dc-hero h1 {
+    margin: 16px 0;
+    font-size: clamp(55px, 7vw, 90px);
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.dc-contact .dc-hero h1 em {
+    color: var(--gold);
+}
+
+.dc-contact .dc-hero p {
+    max-width: 470px;
+    margin: 0 auto;
+    color: rgba(245,240,232,.85);
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+/* ==========================================
+   PREMIUM CONTACT PANEL
+========================================== */
+
+.dc-contact .dc-panel {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    overflow: hidden;
+
+    border: 1px solid rgba(196,164,119,.35);
+    background: rgba(33,29,26,.68);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: 0 25px 90px rgba(0,0,0,.24);
+}
+
+/* LEFT SIDE */
+
+.dc-contact .dc-panel-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 43px 40px;
+    border-right: 1px solid rgba(196,164,119,.25);
+    background: rgba(33,29,26,.24);
+}
+
+.dc-contact .dc-panel-intro h2 {
+    margin: 19px 0;
+    font-size: clamp(37px, 4vw, 55px);
+    line-height: 1.15;
+}
+
+.dc-contact .dc-panel-intro h2 em {
+    color: var(--gold);
+}
+
+.dc-contact .dc-panel-intro p {
+    max-width: 310px;
+    color: rgba(245,240,232,.78);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.dc-contact .dc-signature {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 35px;
+    color: var(--gold);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.dc-contact .dc-signature::before {
+    content: "";
+    width: 35px;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* RIGHT SIDE */
+
+.dc-contact .dc-links {
+    padding: 24px 35px;
+}
+
+.dc-contact .dc-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 19px 7px;
+    border-bottom: 1px solid rgba(196,164,119,.22);
+    color: var(--cream);
+    transition: .3s ease;
+}
+
+.dc-contact .dc-contact-link:last-child {
+    border-bottom: none;
+}
+
+.dc-contact .dc-contact-link:hover {
+    color: var(--gold);
+    padding-left: 14px;
+}
+
+.dc-contact .dc-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+
+    border: 1px solid rgba(196,164,119,.5);
+    color: var(--gold);
+    font-size: 18px;
+    transition: .3s ease;
+}
+
+.dc-contact .dc-contact-link:hover .dc-icon {
+    background: var(--gold);
+    color: var(--espresso);
+}
+
+.dc-contact .dc-contact-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.dc-contact .dc-contact-text small {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.dc-contact .dc-contact-text strong {
+    display: block;
+    color: var(--cream);
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.dc-contact .dc-arrow {
+    color: var(--gold);
+    font-size: 15px;
+    transition: transform .3s ease;
+}
+
+.dc-contact .dc-contact-link:hover .dc-arrow {
+    transform: translate(3px, -3px);
+}
+
+/* ==========================================
+   LOCATION STRIP
+========================================== */
+
+.dc-contact .dc-location {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-top: 18px;
+    padding: 22px 28px;
+
+    border: 1px solid rgba(196,164,119,.25);
+    background: rgba(33,29,26,.55);
+    backdrop-filter: blur(12px);
+}
+
+.dc-contact .dc-location-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dc-contact .dc-location-info > i {
+    color: var(--gold);
+    font-size: 24px;
+}
+
+.dc-contact .dc-location-info small {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.dc-contact .dc-location-info strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dc-contact .dc-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: .3s;
+}
+
+.dc-contact .dc-map-link:hover {
+    color: var(--cream);
+}
+
+/* ==========================================
+   BOTTOM CTA
+========================================== */
+
+.dc-contact .dc-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-top: 55px;
+    padding-top: 28px;
+
+    border-top: 1px solid rgba(196,164,119,.35);
+}
+
+.dc-contact .dc-bottom h2 {
+    margin: 0 0 9px;
+    font-size: clamp(29px, 4vw, 42px);
+}
+
+.dc-contact .dc-bottom h2 em {
+    color: var(--gold);
+}
+
+.dc-contact .dc-bottom p {
+    margin: 0;
+    color: rgba(245,240,232,.75);
+    font-size: 13px;
+}
+
+.dc-contact .dc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 16px 24px;
+
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--espresso);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: .3s ease;
+}
+
+.dc-contact .dc-button:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--espresso);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 767px) {
+
+    .dc-contact .dc-wrap {
+        width: calc(100% - 32px);
+    }
+
+    .dc-contact .dc-page {
+        padding: 48px 0 70px;
+    }
+
+    .dc-contact .dc-hero {
+        margin-bottom: 30px;
+    }
+
+    .dc-contact .dc-hero h1 {
+        font-size: 58px;
+    }
+
+    .dc-contact .dc-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .dc-contact .dc-panel-intro {
+        padding: 30px 25px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(196,164,119,.25);
+    }
+
+    .dc-contact .dc-panel-intro h2 {
+        font-size: 39px;
+    }
+
+    .dc-contact .dc-signature {
+        margin-top: 18px;
+    }
+
+    .dc-contact .dc-links {
+        padding: 10px 20px;
+    }
+
+    .dc-contact .dc-contact-link {
+        padding: 17px 0;
+        gap: 12px;
+    }
+
+    .dc-contact .dc-contact-text strong {
+        font-size: 12px;
+    }
+
+    .dc-contact .dc-location {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px;
+    }
+
+    .dc-contact .dc-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 42px;
+    }
+
+    .dc-contact .dc-button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dc-contact .dc-contact-link,
+    .dc-contact .dc-icon,
+    .dc-contact .dc-arrow,
+    .dc-contact .dc-button {
+        transition: none;
+    }
+}
+</style>
+
+
+<div class="dc-contact">
+
+    <!-- FULL PAGE VIDEO -->
+
+    <div class="dc-video-background" aria-hidden="true">
+        <video
+            class="dc-background-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+        >
+            <source
+                src="/media/dishes/dishes/contact.mp4"
+                type="video/mp4"
+            >
+        </video>
+    </div>
+
+
+    <!-- MAIN -->
+
+    <main class="dc-page">
+
+        <div class="dc-wrap">
+
+            <!-- HERO -->
+
+            <header class="dc-hero">
+
+                <span class="dc-eyebrow">
+                    DISH CAFÉ · GET IN TOUCH
+                </span>
+
+                <h1>
+                    Let's <em>connect.</em>
+                </h1>
+
+                <p>
+                    A question, a special occasion,
+                    or just saying hello?
+                    We'd love to hear from you.
+                </p>
+
+            </header>
+
+
+            <!-- CONTACT PANEL -->
+
+            <section class="dc-panel">
+
+                <!-- LEFT -->
+
+                <div class="dc-panel-intro">
+
+                    <div>
+
+                        <span class="dc-eyebrow">
+                            ALWAYS HAPPY TO HEAR FROM YOU
+                        </span>
+
+                        <h2>
+                            Good conversations<br>
+                            <em>start here.</em>
+                        </h2>
+
+                        <p>
+                            Whether you're planning a visit,
+                            celebrating something special,
+                            or simply have a question,
+                            we're just a message away.
+                        </p>
+
+                    </div>
+
+                    <div class="dc-signature">
+                        Dish Café
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <div class="dc-links">
+
+                    <!-- WHATSAPP -->
+
+                    <a
+                        href="https://wa.me/972501234567"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="dc-contact-link"
+                    >
+
+                        <span class="dc-icon">
+                            <i class="bi bi-whatsapp"></i>
+                        </span>
+
+                        <span class="dc-contact-text">
+                            <small>WhatsApp</small>
+                            <strong>Message us directly</strong>
+                        </span>
+
+                        <i class="bi bi-arrow-up-right dc-arrow"></i>
+
+                    </a>
+
+
+                    <!-- PHONE -->
+
+                    <a
+                        href="tel:+972501234567"
+                        class="dc-contact-link"
+                    >
+
+                        <span class="dc-icon">
+                            <i class="bi bi-telephone"></i>
+                        </span>
+
+                        <span class="dc-contact-text">
+                            <small>Phone</small>
+                            <strong>+972 50-123-4567</strong>
+                        </span>
+
+                        <i class="bi bi-arrow-up-right dc-arrow"></i>
+
+                    </a>
+
+
+                    <!-- EMAIL -->
+
+                    <a
+                        href="mailto:hello@dishcafe.com"
+                        class="dc-contact-link"
+                    >
+
+                        <span class="dc-icon">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+
+                        <span class="dc-contact-text">
+                            <small>Email</small>
+                            <strong>hello@dishcafe.com</strong>
+                        </span>
+
+                        <i class="bi bi-arrow-up-right dc-arrow"></i>
+
+                    </a>
+
+
+                    <!-- LOCATION -->
+
+                    <a
+                        href="https://www.google.com/maps/search/?api=1&amp;query=Rishon+LeZion+Israel"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="dc-contact-link"
+                    >
+
+                        <span class="dc-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </span>
+
+                        <span class="dc-contact-text">
+                            <small>Location</small>
+                            <strong>Rishon LeZion, Israel</strong>
+                        </span>
+
+                        <i class="bi bi-arrow-up-right dc-arrow"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- COMPACT LOCATION -->
+
+            <section class="dc-location">
+
+                <div class="dc-location-info">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <div>
+                        <small>FIND US</small>
+                        <strong>Rishon LeZion, Israel</strong>
+                    </div>
+
+                </div>
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&amp;query=Rishon+LeZion+Israel"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="dc-map-link"
+                >
+                    Open in Google Maps
+                    <i class="bi bi-arrow-up-right"></i>
+                </a>
+
+            </section>
+
+
+            <!-- RESERVATION -->
+
+            <section class="dc-bottom">
+
+                <div>
+
+                    <h2>
+                        A table for <em>you?</em>
+                    </h2>
+
+                    <p>
+                        Your next favorite moment starts here.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'reservation' %}"
+                    class="dc-button"
+                >
+                    Reserve a Table
+                    <i class="bi bi-arrow-up-right"></i>
+                </a>
+
+            </section>
+
+        </div>
+
+    </main>
+
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const video = document.querySelector(
+        ".dc-contact .dc-background-video"
+    );
+
+    if (
+        video &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+        video.pause();
+    }
+
+});
+</script>
+
 {% endblock %}

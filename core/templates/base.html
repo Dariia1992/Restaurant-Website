@@ -7,25 +7,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}RESTO | Restaurant{% endblock %}</title>
+    <title>{% block title %}Dish Café | Restaurant{% endblock %}</title>
 
     <meta name="description"
-          content="{% block description %}Discover delicious food, explore our menu and book your table online.{% endblock %}">
+          content="{% block description %}Discover delicious food, enjoy great coffee and explore the menu at Dish Café.{% endblock %}">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* Global responsive foundation */
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            margin: 0;
+            min-width: 0;
+            overflow-x: clip;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        img,
+        video,
+        iframe {
+            max-width: 100%;
+        }
+
+        img {
+            height: auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            overflow-wrap: break-word;
+        }
+
+        p {
+            overflow-wrap: break-word;
+        }
+
+        .container,
+        .container-fluid,
+        .row,
+        [class*="col-"] {
+            min-width: 0;
+        }
+
+        /* Tablets */
+        @media (max-width: 991.98px) {
+            h1 {
+                font-size: clamp(2rem, 5vw, 3rem);
+            }
+
+            h2 {
+                font-size: clamp(1.7rem, 4vw, 2.5rem);
+            }
+
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 767.98px) {
+            html {
+                scroll-padding-top: 65px;
+            }
+
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            h1 {
+                font-size: clamp(1.9rem, 7vw, 2.5rem);
+            }
+
+            h2 {
+                font-size: clamp(1.5rem, 6vw, 2rem);
+            }
+
+            p {
+                line-height: 1.7;
+            }
+
+            .btn {
+                max-width: 100%;
+                white-space: normal;
+            }
+
+            input,
+            select,
+            textarea {
+                max-width: 100%;
+                font-size: 16px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 375px) {
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+    </style>
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -40,11 +154,17 @@
         <div class="container mt-3">
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags|default:'info' }}
-                            alert-dismissible fade show" role="alert">
+                            alert-dismissible fade show"
+                     role="alert">
+
                     {{ message }}
-                    <button type="button" class="btn-close"
-                            data-bs-dismiss="alert"
-                            aria-label="Close"></button>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                    </button>
                 </div>
             {% endfor %}
         </div>
@@ -52,8 +172,7 @@
 
     <!-- Main Content -->
     <main class="flex-grow-1">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
@@ -64,7 +183,7 @@
 
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}" defer></script>
-
+{% include 'core/includes/chef_secret.html' %}
     {% block extra_js %}{% endblock %}
 
 </body>

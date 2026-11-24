@@ -1,76 +1,242 @@
 
-<footer class="py-4 mt-5"
-        style="background-color: #5d6b6b; color: #f1f7f7;">
+<style>
+/* ======================================
+   DISH CAFÉ — ELEGANT FOOTER
+====================================== */
+
+.dish-footer {
+    background: #211D1A;
+    color: #F5F0E8;
+    padding: 75px 0 25px;
+    margin-top: 0 !important;
+    border-top: 1px solid rgba(196, 164, 119, 0.3);
+    position: relative;
+    z-index: 10;
+}
+
+.dish-footer .footer-brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #F5F0E8;
+    margin-bottom: 20px;
+}
+
+.dish-footer .footer-brand span {
+    color: #C4A477;
+}
+
+.dish-footer .footer-description {
+    color: rgba(245, 240, 232, 0.72);
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 290px;
+}
+
+.dish-footer .footer-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #C4A477;
+    margin-bottom: 25px;
+}
+
+.dish-footer .footer-link {
+    display: block;
+    width: fit-content;
+    color: rgba(245, 240, 232, 0.75);
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 15px;
+    transition: color .3s ease, transform .3s ease;
+}
+
+.dish-footer .footer-link:hover {
+    color: #C4A477;
+    transform: translateX(5px);
+}
+
+.dish-footer .footer-contact {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: rgba(245, 240, 232, 0.75);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.dish-footer .footer-contact i {
+    color: #C4A477;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.dish-footer .footer-contact a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .3s ease;
+}
+
+.dish-footer .footer-contact a:hover {
+    color: #C4A477;
+}
+
+.dish-footer .footer-divider {
+    border: 0;
+    border-top: 1px solid rgba(196, 164, 119, 0.3);
+    opacity: 1;
+    margin: 55px 0 25px;
+}
+
+.dish-footer .footer-bottom {
+    color: rgba(245, 240, 232, 0.55);
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+.dish-footer .footer-privacy {
+    color: rgba(245, 240, 232, 0.7);
+    font-size: 12px;
+    text-decoration: none;
+    transition: color .3s ease;
+}
+
+.dish-footer .footer-privacy:hover {
+    color: #C4A477;
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media (max-width: 767px) {
+
+    .dish-footer {
+        padding: 55px 0 25px;
+    }
+
+    .dish-footer .footer-brand {
+        font-size: 28px;
+    }
+
+    .dish-footer .footer-divider {
+        margin: 35px 0 22px;
+    }
+
+    .dish-footer .footer-bottom {
+        text-align: center;
+    }
+}
+</style>
+
+
+<footer class="dish-footer">
 
     <div class="container">
 
         {% if request.resolver_match.url_name != 'privacy_policy' %}
 
-        <div class="row gy-4 align-items-start">
+        <div class="row gy-5">
 
-            <!-- Restaurant -->
+            <!-- BRAND -->
             <div class="col-md-4">
-                <h4 class="fw-bold">Restaurant</h4>
-                <p class="small">
-                    Delicious food, cozy atmosphere
-                    and unforgettable moments.
+
+                <h3 class="footer-brand">
+                    Dish <span>Café.</span>
+                </h3>
+
+                <p class="footer-description">
+                    More than just a place to eat.
+                    A little escape, a warm atmosphere,
+                    and moments worth remembering.
                 </p>
+
             </div>
 
-            <!-- Navigation -->
-            <div class="col-md-4">
-                <h6 class="fw-bold mb-3">Explore</h6>
 
-                <a href="{% url 'home' %}#menu"
-                   class="d-block text-decoration-none mb-2"
-                   style="color: #f1f7f7;">
-                    Menu
+            <!-- NAVIGATION -->
+            <div class="col-md-4">
+
+                <h6 class="footer-heading">
+                    Explore
+                </h6>
+
+                <a href="{% url 'home' %}"
+                   class="footer-link">
+                    Home
                 </a>
 
-                <a href="{% url 'home' %}#about"
-                   class="d-block text-decoration-none mb-2"
-                   style="color: #f1f7f7;">
+                <a href="{% url 'home' %}#menu"
+                   class="footer-link">
+                    Our Menu
+                </a>
+
+                <a href="{% url 'about' %}"
+                   class="footer-link">
                     About Us
                 </a>
 
                 <a href="{% url 'home' %}#contact"
-                   class="d-block text-decoration-none"
-                   style="color: #f1f7f7;">
+                   class="footer-link">
                     Contact
                 </a>
+
             </div>
 
-            <!-- Contact -->
+
+            <!-- CONTACT -->
             <div class="col-md-4">
-                <h6 class="fw-bold mb-3">Contact Us</h6>
-                <p class="small mb-2">Tel Aviv, Israel</p>
-                <p class="small mb-2">+972 XX XXX XXXX</p>
-                <p class="small">hello@restaurant.com</p>
+
+                <h6 class="footer-heading">
+                    Get in Touch
+                </h6>
+
+                <div class="footer-contact">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Tel Aviv, Israel</span>
+                </div>
+
+                <div class="footer-contact">
+                    <i class="bi bi-telephone"></i>
+                    <span>+972 XX XXX XXXX</span>
+                </div>
+
+                <div class="footer-contact">
+                    <i class="bi bi-envelope"></i>
+                    <a href="mailto:hello@restaurant.com">
+                        hello@restaurant.com
+                    </a>
+                </div>
+
             </div>
 
         </div>
 
-        <hr class="my-4" style="border-color: #bdd7d8;">
+        <hr class="footer-divider">
 
         {% endif %}
 
-        <!-- Bottom Footer -->
+
+        <!-- BOTTOM FOOTER -->
         <div class="d-flex flex-column flex-md-row
                     justify-content-between align-items-center
-                    gap-2 small">
+                    gap-3 footer-bottom">
 
             <span>
-                &copy; {% now "Y" %} Restaurant.
+                &copy; {% now "Y" %} Dish Café.
                 All rights reserved.
             </span>
 
             <a href="{% url 'privacy_policy' %}"
-               class="text-decoration-none"
-               style="color: #f1f7f7;">
+               class="footer-privacy">
                 Privacy Policy
             </a>
 
         </div>
 
     </div>
+
 </footer>

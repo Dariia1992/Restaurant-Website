@@ -1,62 +1,237 @@
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg sticky-top shadow-sm"
-     style="background-color: #f1f7f7;">
+<!-- ======================================
+     DISH CAFÉ — NAVBAR
+     ESPRESSO & CHAMPAGNE
+====================================== -->
 
-    <div class="container py-2">
+<style>
+.dish-navbar {
+    background: #F5F0E8;
+    border-bottom: 1px solid rgba(81, 66, 56, 0.12);
+    padding: 7px 0;
+    transition: box-shadow .3s ease;
+    z-index: 1030;
+}
 
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold fs-3"
-           href="{% url 'home' %}"
-           style="color: #5d6b6b;">
-            RESTO<span style="color: #f7cbca;"></span>
+.dish-navbar .navbar-brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    color: #211D1A;
+    white-space: nowrap;
+}
+
+.dish-navbar .navbar-brand span {
+    color: #A58250;
+}
+
+.dish-navbar .navbar-brand:hover {
+    color: #211D1A;
+}
+
+.dish-navbar .nav-link {
+    position: relative;
+    color: #514238;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    padding: 10px 5px !important;
+    transition: color .3s ease;
+}
+
+.dish-navbar .nav-link:hover,
+.dish-navbar .nav-link.active {
+    color: #A58250;
+}
+
+.dish-navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    height: 1px;
+    background: #C4A477;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s ease;
+}
+
+.dish-navbar .nav-link:hover::after,
+.dish-navbar .nav-link.active::after {
+    transform: scaleX(1);
+}
+
+/* ACTION ICONS */
+
+.dish-navbar .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: #514238;
+    font-size: 21px;
+    text-decoration: none;
+    transition: color .3s ease, transform .3s ease;
+}
+
+.dish-navbar a.nav-icon:hover {
+    color: #A58250;
+    transform: translateY(-2px);
+}
+
+.dish-navbar .nav-icon-disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+/* RESERVATION BUTTON */
+
+.dish-navbar .nav-reserve {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: #211D1A;
+    border: 1px solid #211D1A;
+    border-radius: 50px;
+    color: #F5F0E8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background .3s ease,
+        border-color .3s ease,
+        color .3s ease,
+        transform .3s ease;
+}
+
+.dish-navbar .nav-reserve:hover {
+    background: #C4A477;
+    border-color: #C4A477;
+    color: #211D1A;
+    transform: translateY(-2px);
+}
+
+/* MOBILE TOGGLE */
+
+.dish-navbar .navbar-toggler {
+    border: 1px solid rgba(81,66,56,.3);
+    padding: 8px 11px;
+    box-shadow: none;
+}
+
+.dish-navbar .navbar-toggler:focus {
+    box-shadow: 0 0 0 2px rgba(196,164,119,.35);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 991.98px) {
+    .dish-navbar .navbar-collapse {
+        padding: 22px 0 15px;
+    }
+
+    .dish-navbar .navbar-nav {
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(81,66,56,.15);
+        margin-bottom: 20px;
+    }
+
+    .dish-navbar .nav-link {
+        padding: 12px 5px !important;
+        font-size: 14px;
+    }
+
+    .dish-navbar .nav-link::after {
+        right: auto;
+        width: 45px;
+    }
+
+    .dish-navbar .navbar-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 375px) {
+    .dish-navbar .navbar-brand {
+        font-size: 26px;
+    }
+
+    .dish-navbar .nav-reserve {
+        padding: 11px 17px;
+    }
+}
+</style>
+
+
+<nav class="navbar navbar-expand-lg sticky-top dish-navbar">
+
+    <div class="container">
+
+        <!-- LOGO -->
+        <a class="navbar-brand"
+           href="{% url 'home' %}">
+            Dish <span>Café.</span>
         </a>
 
-        <!-- Mobile toggle -->
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarMenu"
-                aria-controls="navbarMenu"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+
+        <!-- MOBILE TOGGLE -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
 
-        <!-- Menu -->
+
+        <!-- NAVIGATION -->
         <div class="collapse navbar-collapse" id="navbarMenu">
 
             <ul class="navbar-nav mx-auto gap-lg-3">
 
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
                        href="{% url 'home' %}">
                         Home
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if request.resolver_match.url_name == 'menu' %}active{% endif %}"
                        href="{% url 'menu' %}">
                         Menu
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
                        href="{% url 'about' %}">
                         About Us
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if request.resolver_match.url_name == 'events' %}active{% endif %}"
                        href="{% url 'events' %}">
                         Events
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
                        href="{% url 'contact' %}">
                         Contact
                     </a>
@@ -64,33 +239,44 @@
 
             </ul>
 
-            <!-- Actions -->
-            <div class="d-flex align-items-center gap-3">
 
-                <!-- Cart -->
+            <!-- ACTIONS -->
+            <div class="d-flex align-items-center gap-3 navbar-actions">
+
+                <!-- CART -->
                 <a href="{% url 'cart' %}"
-                   class="text-decoration-none fs-5"
-                   style="color: #5d6b6b;"
-                   aria-label="Shopping cart">
+                   class="nav-icon"
+                   aria-label="Shopping cart"
+                   title="Shopping cart">
+
                     <i class="bi bi-bag"></i>
+
                 </a>
 
-                <!-- Login (coming later) -->
-                <span class="fs-5"
-                      style="color: #5d6b6b;"
-                      title="Login coming soon">
+
+                <!-- LOGIN (COMING SOON) -->
+                <span class="nav-icon nav-icon-disabled"
+                      title="Login coming soon"
+                      aria-label="Login coming soon">
+
                     <i class="bi bi-person"></i>
+
                 </span>
 
-                <!-- Reservation -->
+
+                <!-- RESERVATION -->
                 <a href="{% url 'reservation' %}"
-                   class="btn rounded-pill px-4 fw-semibold"
-                   style="background-color: #f7cbca; color: #5d6b6b;">
+                   class="nav-reserve">
+
                     Book a Table
+                    <i class="bi bi-arrow-up-right"></i>
+
                 </a>
 
             </div>
 
         </div>
+
     </div>
+
 </nav>

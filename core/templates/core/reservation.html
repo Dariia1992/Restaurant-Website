@@ -1,9 +1,693 @@
-{% extends 'base.html' %}
 
-{% block title %}Events | RESTO{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reservations | Dish Café{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1>reservation</h1>
+
+<style>
+/* ======================================
+   DISH CAFÉ — RESERVATION
+====================================== */
+
+.dr-page {
+    --espresso: #211D1A;
+    --mocha: #514238;
+    --gold: #C4A477;
+    --cream: #F5F0E8;
+
+    background: var(--espresso);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 80vh;
+}
+
+.dr-page *,
+.dr-page *::before,
+.dr-page *::after {
+    box-sizing: border-box;
+}
+
+.dr-page h1,
+.dr-page h2,
+.dr-page h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+}
+
+.dr-page .dr-container {
+    width: min(1080px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.dr-page .dr-label {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* HEADING */
+
+.dr-page .dr-heading {
+    padding: 70px 0 42px;
+    border-bottom: 1px solid rgba(196,164,119,.2);
+}
+
+.dr-page .dr-heading-inner {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.dr-page .dr-heading h1 {
+    margin: 12px 0 0;
+    font-size: clamp(43px, 5vw, 67px);
+    line-height: 1.12;
+}
+
+.dr-page .dr-heading h1 em {
+    color: var(--gold);
+}
+
+.dr-page .dr-heading p {
+    max-width: 310px;
+    margin: 0 0 4px;
+    color: rgba(245,240,232,.65);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* MAIN */
+
+.dr-page .dr-main {
+    padding: 55px 0 85px;
+}
+
+.dr-page .dr-grid {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: 65px;
+    align-items: start;
+}
+
+/* LEFT */
+
+.dr-page .dr-intro h2 {
+    margin: 0 0 16px;
+    font-size: 33px;
+    line-height: 1.2;
+}
+
+.dr-page .dr-intro h2 em {
+    color: var(--gold);
+}
+
+.dr-page .dr-intro > p {
+    max-width: 350px;
+    color: rgba(245,240,232,.68);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.dr-page .dr-divider {
+    width: 100%;
+    height: 1px;
+    margin: 30px 0;
+    background: rgba(196,164,119,.22);
+}
+
+.dr-page .dr-detail {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.dr-page .dr-detail i {
+    color: var(--gold);
+    font-size: 20px;
+}
+
+.dr-page .dr-detail strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dr-page .dr-detail span {
+    color: rgba(245,240,232,.62);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.dr-page .dr-note {
+    margin-top: 35px;
+    padding: 22px;
+    border: 1px solid rgba(196,164,119,.25);
+}
+
+.dr-page .dr-note i {
+    color: var(--gold);
+    font-size: 20px;
+}
+
+.dr-page .dr-note p {
+    margin: 10px 0 0;
+    color: rgba(245,240,232,.7);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* FORM */
+
+.dr-page .dr-form-panel {
+    padding: 35px;
+    background: var(--mocha);
+    border: 1px solid rgba(196,164,119,.2);
+}
+
+.dr-page .dr-form-title {
+    margin: 0 0 8px;
+    font-size: 29px;
+}
+
+.dr-page .dr-form-subtitle {
+    margin: 0 0 28px;
+    color: rgba(245,240,232,.65);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.dr-page .dr-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 19px;
+}
+
+.dr-page .dr-field {
+    min-width: 0;
+}
+
+.dr-page .dr-field.full {
+    grid-column: 1 / -1;
+}
+
+.dr-page .dr-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--cream);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.dr-page .dr-field input,
+.dr-page .dr-field select,
+.dr-page .dr-field textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 14px;
+    background: var(--espresso);
+    border: 1px solid rgba(196,164,119,.28);
+    border-radius: 0;
+    outline: none;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    transition: border-color .25s;
+    color-scheme: dark;
+}
+
+.dr-page .dr-field input:focus,
+.dr-page .dr-field select:focus,
+.dr-page .dr-field textarea:focus {
+    border-color: var(--gold);
+}
+
+.dr-page .dr-field input::placeholder,
+.dr-page .dr-field textarea::placeholder {
+    color: rgba(245,240,232,.4);
+}
+
+.dr-page .dr-field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.dr-page .dr-submit {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--espresso);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    transition: .25s;
+}
+
+.dr-page .dr-submit:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+}
+
+.dr-page .dr-form-footnote {
+    margin: 15px 0 0;
+    color: rgba(245,240,232,.55);
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* MESSAGES */
+
+.dr-page .dr-alert {
+    padding: 13px 16px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(196,164,119,.5);
+    color: var(--cream);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.dr-page .dr-error {
+    color: #FFB9AC;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.dr-page .dr-field input[aria-invalid="true"],
+.dr-page .dr-field select[aria-invalid="true"],
+.dr-page .dr-field textarea[aria-invalid="true"] {
+    border-color: #FFB9AC;
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+    .dr-page .dr-container {
+        width: calc(100% - 36px);
+    }
+
+    .dr-page .dr-heading {
+        padding: 50px 0 35px;
+    }
+
+    .dr-page .dr-heading-inner {
+        display: block;
+    }
+
+    .dr-page .dr-heading h1 {
+        font-size: 45px;
+    }
+
+    .dr-page .dr-heading p {
+        margin-top: 18px;
+    }
+
+    .dr-page .dr-main {
+        padding: 38px 0 60px;
+    }
+
+    .dr-page .dr-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .dr-page .dr-intro h2 {
+        font-size: 29px;
+    }
+
+    .dr-page .dr-form-panel {
+        padding: 22px;
+    }
+
+    .dr-page .dr-fields {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .dr-page .dr-field.full {
+        grid-column: auto;
+    }
+}
+</style>
+
+
+<div class="dr-page">
+
+    <!-- HEADER -->
+
+    <section class="dr-heading">
+
+        <div class="dr-container dr-heading-inner">
+
+            <div>
+                <span class="dr-label">
+                    DISH CAFÉ · RESERVATIONS
+                </span>
+
+                <h1>
+                    Your <em>table awaits.</em>
+                </h1>
+            </div>
+
+            <p>
+                A quiet coffee, a lovely lunch, or a special
+                evening. Save your favorite spot with us.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN -->
+
+    <section class="dr-main">
+
+        <div class="dr-container dr-grid">
+
+            <!-- LEFT INFORMATION -->
+
+            <div class="dr-intro">
+
+                <h2>
+                    Make yourself<br>
+                    <em>at home.</em>
+                </h2>
+
+                <p>
+                    Great food tastes even better when
+                    shared. Choose your preferred date
+                    and time, and we'll help make your
+                    visit memorable.
+                </p>
+
+                <div class="dr-divider"></div>
+
+                <div class="dr-detail">
+                    <i class="bi bi-calendar3"></i>
+                    <div>
+                        <strong>Choose your date</strong>
+                        <span>
+                            Pick the day that works best for you.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="dr-detail">
+                    <i class="bi bi-clock"></i>
+                    <div>
+                        <strong>Your preferred time</strong>
+                        <span>
+                            Let us know when you'd like to visit.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="dr-detail">
+                    <i class="bi bi-people"></i>
+                    <div>
+                        <strong>Bring your favorite people</strong>
+                        <span>
+                            Tell us how many guests are joining.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="dr-note">
+                    <i class="bi bi-cup-hot"></i>
+                    <p>
+                        Special occasion or a particular request?
+                        Leave us a note when booking.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- RESERVATION FORM -->
+
+            <div class="dr-form-panel">
+
+                <h2 class="dr-form-title">
+                    Book a table
+                </h2>
+
+                <p class="dr-form-subtitle">
+                    Fill in your details and send us your request.
+                </p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="dr-alert" role="status">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <div class="dr-alert" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post" id="reservationForm">
+                    {% csrf_token %}
+
+                    <div class="dr-fields">
+
+                        <!-- NAME -->
+
+                        <div class="dr-field full">
+                            <label for="reservationName">
+                                Full Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="reservationName"
+                                name="name"
+                                value="{{ form.name.value|default_if_none:'' }}"
+                                placeholder="Your full name"
+                                autocomplete="name"
+                                required>
+
+                            {% if form.name.errors %}
+                                <div class="dr-error">
+                                    {{ form.name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="dr-field">
+                            <label for="reservationEmail">
+                                Email *
+                            </label>
+
+                            <input
+                                type="email"
+                                id="reservationEmail"
+                                name="email"
+                                value="{{ form.email.value|default_if_none:'' }}"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required>
+
+                            {% if form.email.errors %}
+                                <div class="dr-error">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- PHONE -->
+
+                        <div class="dr-field">
+                            <label for="reservationPhone">
+                                Phone *
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="reservationPhone"
+                                name="phone"
+                                value="{{ form.phone.value|default_if_none:'' }}"
+                                placeholder="+972 ..."
+                                autocomplete="tel"
+                                required>
+
+                            {% if form.phone.errors %}
+                                <div class="dr-error">
+                                    {{ form.phone.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="dr-field">
+                            <label for="reservationDate">
+                                Date *
+                            </label>
+
+                            <input
+                                type="date"
+                                id="reservationDate"
+                                name="date"
+                                value="{{ form.date.value|date:'Y-m-d'|default_if_none:'' }}"
+                                required>
+
+                            {% if form.date.errors %}
+                                <div class="dr-error">
+                                    {{ form.date.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- TIME -->
+
+                        <div class="dr-field">
+                            <label for="reservationTime">
+                                Time *
+                            </label>
+
+                            <input
+                                type="time"
+                                id="reservationTime"
+                                name="time"
+                                value="{{ form.time.value|time:'H:i'|default_if_none:'' }}"
+                                required>
+
+                            {% if form.time.errors %}
+                                <div class="dr-error">
+                                    {{ form.time.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- GUESTS -->
+
+                        <div class="dr-field full">
+                            <label for="reservationGuests">
+                                Number of Guests *
+                            </label>
+
+                            <select
+                                id="reservationGuests"
+                                name="guests"
+                                required>
+
+                                <option value="">
+                                    Select number of guests
+                                </option>
+
+                                {% for number in "12345678" %}
+                                    <option
+                                        value="{{ forloop.counter }}"
+                                        {% if form.guests.value|stringformat:'s' == forloop.counter|stringformat:'s' %}selected{% endif %}>
+                                        {{ forloop.counter }}
+                                        {% if forloop.counter == 1 %}
+                                            Guest
+                                        {% else %}
+                                            Guests
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+
+                            {% if form.guests.errors %}
+                                <div class="dr-error">
+                                    {{ form.guests.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <!-- NOTES -->
+
+                        <div class="dr-field full">
+                            <label for="reservationNotes">
+                                Special Requests
+                            </label>
+
+                            <textarea
+                                id="reservationNotes"
+                                name="notes"
+                                placeholder="Anything we should know?">{{ form.notes.value|default_if_none:'' }}</textarea>
+
+                            {% if form.notes.errors %}
+                                <div class="dr-error">
+                                    {{ form.notes.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="dr-submit">
+                        Send Reservation Request
+                        <i class="bi bi-arrow-up-right"></i>
+                    </button>
+
+                    <p class="dr-form-footnote">
+                        Your reservation is subject to confirmation
+                        by our team.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const dateInput = document.getElementById("reservationDate");
+
+    if (!dateInput) return;
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+
+    const today = `${year}-${month}-${day}`;
+
+    dateInput.min = today;
+
+});
+</script>
+
 {% endblock %}
